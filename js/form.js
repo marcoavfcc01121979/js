@@ -9,11 +9,31 @@ var botaoAdicionar = document.querySelector('#adicionar-paciente');
 
     var pacienteTr = montaTr(paciente)
 
+    var erros = validaPaciente(paciente)
+    if(erros.length > 0) {
+      exibeMensagemDeErro(erros)
+      return;
+    }
+
     var tabela = document.querySelector('#tabela-pacientes');
     tabela.appendChild(pacienteTr);
 
-    form.reset()
+    form.reset();
+    var mensagemErro = document.querySelector('#mensagem-erro');
+    mensagemErro.innerHTML = ""
   })
+
+  function exibeMensagemDeErro(erros) {
+    var ul = document.querySelector('#mensagem-erro')
+
+    ul.innerHTML = "";
+
+    erros.forEach(function(erro){
+      var li = document.createElement('li');
+      li.textContent = erro;
+      ul.appendChild(li);
+    })
+  }
 
   function obtemPacienteDoFormulario(form){
     var paciente = {
@@ -46,4 +66,28 @@ var botaoAdicionar = document.querySelector('#adicionar-paciente');
     td.classList.add(classe)
 
     return td;
+  }
+
+  function validaPaciente(paciente){
+    var erros = [];
+
+    if(paciente.nome.length === 0) 
+      erros.push('O nome é obrigátorio.');
+    
+    if(paciente.gordura.length === 0)
+      erros.push('O Campo gordura é obrigátorio.')
+
+    if(!validaPeso(paciente.peso)) 
+      erros.push('Peso é inválido!');
+    
+    if(!validaAltura(paciente.altura)) 
+      erros.push('Altura é inválida!');
+
+    if(paciente.peso.length === 0) 
+      erros.push('O Campo peso é obrigátorio.')
+
+    if(paciente.altura.length === 0)
+      erros.push('O Campo altura é obrigátorio.')
+
+    return erros;
   }
