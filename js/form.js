@@ -7,21 +7,25 @@ var botaoAdicionar = document.querySelector('#adicionar-paciente');
     var paciente = obtemPacienteDoFormulario(form);
     //console.log(paciente);
 
-    var pacienteTr = montaTr(paciente)
-
     var erros = validaPaciente(paciente)
     if(erros.length > 0) {
       exibeMensagemDeErro(erros)
       return;
     }
 
-    var tabela = document.querySelector('#tabela-pacientes');
-    tabela.appendChild(pacienteTr);
+    adicionaPacienteNaTabela(paciente)
 
     form.reset();
     var mensagemErro = document.querySelector('#mensagem-erro');
     mensagemErro.innerHTML = ""
   })
+
+  function adicionaPacienteNaTabela(paciente) {
+    var pacienteTr = montaTr(paciente);
+
+    var tabela = document.querySelector('#tabela-pacientes');
+    tabela.appendChild(pacienteTr);
+  }
 
   function exibeMensagemDeErro(erros) {
     var ul = document.querySelector('#mensagem-erro')
